@@ -1,0 +1,20 @@
+{
+    "name":"bonuscred/classmap-generator",
+    "description":"Library for mapping and extracting file identification information for importing classes",
+    "type":"library",
+    "license":"GPL-3.0-or-later",
+    "authors":[
+      {
+        "name":"Daniel Franklin",
+        "email": "daniel@bonuspago.com.br"
+      }
+    ],
+    "autoload":{
+      "psr-4":{
+        "ClassmapGenerator\\": "src/"
+      }
+    },
+    "require":{
+      "php": ">=8.0"
+    }
+  }
