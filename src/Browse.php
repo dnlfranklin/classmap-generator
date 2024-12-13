@@ -6,6 +6,7 @@ use Throwable;
 
 class Browse{
     
+    private string|null $base_path = null;
     private Array $paths = [];
     private Array $extensions = []; 
     private Array $classes = [];
@@ -20,6 +21,10 @@ class Browse{
             'path' => $path,
             'use_namespace' => $use_namespace
         ];
+    }
+
+    public function setBasePath(string $base_path):void {
+        $this->base_path = realpath($base_path);
     }
 
     public function setExtensions(Array $extensions):void {
@@ -49,17 +54,22 @@ class Browse{
                     if($entry->isFile()){
                         if(empty($this->extensions) || in_array(strtolower($entry->getExtension()), $this->extensions)){
                             $realpath = $entry->getRealPath();
-                            $relativepath = str_replace('\\', '/', $entry->getPathname());
                             
                             try{
                                 $classname = self::parseFile($realpath, $use_namespace);
                             }
                             catch(Throwable $e){
-                                throw new \ParseError('Failed to parse file: '.$relativepath.'. Error:'.$e->getMessage().' on line '.$e->getLine());
+                                throw new \ParseError('Failed to parse file: '.$realpath.'. Error:'.$e->getMessage().' on line '.$e->getLine());
                             }
                                                         
                             if($classname === FALSE){
                                 continue;
+                            }
+
+                            if($this->base_path){
+                                $relativepath = str_replace($this->base_path, '', $realpath);
+                                $relativepath = str_replace('\\', '/', $relativepath);
+                                $relativepath = trim($relativepath, '/');
                             }
 
                             if(array_key_exists($classname, $this->classes)){

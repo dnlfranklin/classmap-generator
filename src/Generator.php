@@ -25,6 +25,10 @@ class Generator{
         $this->extensions[strtolower($extension)] = false;      
     }
 
+    public function setBasePath(string $path){
+        $this->browse->setBasePath($path);
+    }
+
     public function getMap(bool $include_first_occurrence = true):Array {
         $extensions = [];
         foreach($this->extensions as $extension => $active){
@@ -47,7 +51,8 @@ class Generator{
         string $dirname = './', 
         string $filename = 'classmap.php', 
         bool $include_first_occurrence = true, 
-        bool $use_require = false):void 
+        bool $use_require = false,
+    ):void 
     {
         $writer = new Writer;
         if($use_require){
