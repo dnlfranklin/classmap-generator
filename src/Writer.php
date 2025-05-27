@@ -19,7 +19,7 @@ class Writer{
             throw new \InvalidArgumentException('$filename contains an illegal character.');
         }        
 
-        $path = trim($dirname, '/');
+        $path = rtrim($dirname, '/');
         $path.= '/'.$filename;
 
         $content = "<?php \n\n";
